@@ -1,0 +1,8 @@
+/auto/
+*.tikz
+*.aux
+/tipo-de-homotopia.fdb_latexmk
+*.fls
+*.log
+*.out
+*.tex

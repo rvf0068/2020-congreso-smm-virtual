@@ -1,0 +1,410 @@
+#+macro: newline @@latex:\\[0.2em]@@ @@html:<br>@@
+
+#+title: Cálculo del tipo de homotopía de complejos simpliciales
+#+author: Rafael Villarroel Flores, UAEH
+#+date: Congreso Virtual SMM 2020
+#+setupfile: options.org
+
+#+latex: \SetVertexNotLabeledSmall
+#+latex: \tikzstyle{EdgeStyle}=[color=white, line width=0.5pt, double=black, double distance=1pt]
+
+* Introducción
+  :LOGBOOK:
+  CLOCK: [2020-09-11 Fri 14:01]--[2020-09-11 Fri 14:26] =>  0:25
+  CLOCK: [2020-09-11 Fri 13:21]--[2020-09-11 Fri 13:46] =>  0:25
+  CLOCK: [2020-09-11 Fri 12:44]--[2020-09-11 Fri 13:09] =>  0:25
+  CLOCK: [2020-09-11 Fri 12:14]--[2020-09-11 Fri 12:39] =>  0:25
+  CLOCK: [2020-09-09 Wed 13:29]--[2020-09-09 Wed 13:54] =>  0:25
+  CLOCK: [2020-09-09 Wed 12:33]--[2020-09-09 Wed 12:58] =>  0:25
+  CLOCK: [2020-09-09 Wed 11:54]--[2020-09-09 Wed 12:19] =>  0:25
+  CLOCK: [2020-09-09 Wed 11:22]--[2020-09-09 Wed 11:47] =>  0:25
+  :END:
+
+** Complejos simpliciales
+   
+*** 
+    Los complejos simpliciales proporcionan una manera sencilla de
+    involucrar la topología en diversas construcciones combinatorias.
+
+*** Complejo simplicial                                        :B_definition:
+    :PROPERTIES:
+    :BEAMER_env: definition
+    :END:
+    Un *complejo simplicial* \((\Delta, X)\) consta de un conjunto
+    \(X\) de *vértices* y un conjunto de subconjuntos de \(X\)
+    (llamados *simplejos*), tal que si \(\sigma\in\Delta\) y
+    \(\tau\subseteq\sigma\), entonces \(\tau\in\Delta\).
+
+*** 
+    A cada complejo simplicial se le puede asociar un espacio
+    topológico \(|\Delta|\).
+
+** Vecindades
+
+*** Complejo de vecindades                                     :B_definition:
+    :PROPERTIES:
+    :BEAMER_env: definition
+    :END:
+    Sea \(G\) una gráfica. Se tiene un complejo simplicial
+    \(\mathcal{N}(G)\), donde:
+    - el conjunto de vértices es \(V(G)\),
+    - \(\sigma\subseteq V(G)\) es un simplejo si los vértices de
+      \(\sigma\) tienen un vecino común.
+
+***                                                          :B_column:BMCOL:
+    :PROPERTIES:
+    :BEAMER_env: column
+    :BEAMER_col: 0.5
+    :END:
+    #+name: diamante
+    #+header: :file (by-backend (latex "diamante.tikz") (beamer "diamante.tikz") (t "diamante.png"))
+    #+begin_src latex
+\begin{tikzpicture}
+  \SetVertexNoLabel
+  \GraphInit[vstyle=Welsh]
+  \pgfmathsetmacro{\unidad}{2}
+  \pgfmathsetmacro{\eje}{0.5*sqrt(3)*\unidad}
+  \Vertex[x=-\eje,y=0]{a0}
+  \Vertex[x=\eje,y=0]{b0}
+  \grPath[form=2,rotation=90,prefix=x,RA=\unidad]{2}
+  \EdgeFromOneToAll{a}{x}{0}{2}
+  \EdgeFromOneToAll{b}{x}{0}{2}
+  \AssignVertexLabel[Math]{x}{2,3}
+  \AssignVertexLabel[Math]{a}{1}
+  \AssignVertexLabel[Math]{b}{4}
+\end{tikzpicture}
+    #+end_src
+    
+    #+attr_html: :width 400 :alt diamante :align center
+    #+attr_latex: :float t :width ""
+    #+caption: Gráfica \(G\) label:diamante
+    #+RESULTS[5e870f5fe6e70f60b7515c3059348dcea87e55bf]: diamante
+    [[file:diamante.png]]
+
+*** Dibujo                                                   :B_column:BMCOL:
+    :PROPERTIES:
+    :BEAMER_env: column
+    :BEAMER_col: 0.5
+    :END:
+    #+name: complejo-ng
+    #+header: :file (by-backend (latex "complejo-ng.tikz") (beamer "complejo-ng.tikz") (t "complejo-ng.png"))
+    #+begin_src latex
+\begin{tikzpicture}
+  [relleno/.style={fill=blue!20},
+  vertices/.style={fill=magenta},
+  radiovertice/.style={radius=0.5mm}]
+  \pgfmathsetmacro{\unidad}{1.3}
+  \pgfmathsetmacro{\altura}{sqrt(3)*\unidad}
+  \pgfmathsetmacro{\mediaaltura}{0.5*sqrt(3)*\unidad}
+  \draw  (-\unidad, 0) -- (\unidad, 0) -- (0, -\altura) -- cycle;
+  \draw[relleno]  (-\unidad, 0) -- (0,-\mediaaltura) -- (0, -\altura) -- cycle;
+  \draw[relleno]  (\unidad, 0) -- (0,-\mediaaltura) -- (0, -\altura) -- cycle;
+  \draw[vertices] (0, -\mediaaltura) node[above] {\(1\)} circle[radiovertice];
+  \draw[vertices] (0, -\altura) node[below] {\(4\)} circle[radiovertice];
+  \draw[vertices] (-\unidad, 0) node[left] {\(3\)} circle[radiovertice];
+  \draw[vertices] (\unidad, 0) node[right] {\(2\)} circle[radiovertice];
+\end{tikzpicture}
+    #+end_src
+    
+    #+attr_html: :width 400 :alt complejo-ng :align center
+    #+attr_latex: :float t :width ""
+    #+caption: Complejo \(\mathcal{N}(G)\) label:complejo-ng
+    #+results: complejo-ng
+
+    
+** 
+
+*** Lovász, 1978                                                  :B_theorem:
+    :PROPERTIES:
+    :BEAMER_env: theorem
+    :END:
+    Si \(|\mathcal{N}(G)|\) es \(k\)-conexo, entonces
+    \(\chi(G)\geq k+3\).
+
+***                                                         :B_ignoreheading:
+    :PROPERTIES:
+    :BEAMER_env: ignoreheading
+    :END:
+    - Un espacio \(X\) es \(k\)-conexo si toda función continua
+      \(S^{k}\to X\) puede extenderse a la bola cerrada \(D^{k+1}\to X\).
+    - \((-1)\)-conexo es ser no vacío.
+    - \(0\)-conexo es ser conexo por trayectorias.
+    - \(1\)-conexo es ser simplemente conexo.
+
+** 
+   #+attr_latex: :height 8cm
+   [[file:lovasz.png]]
+
+** hom
+
+*** 
+    El complejo de vecindades fue generalizado por Lovász a una
+    construcción \(\mathrm{hom}(G,H)\), definida para cualquier par de
+    gráficas \(G,H\). Se tiene que \(\mathrm{hom}(K_{2},G)\simeq
+    \mathcal{N}(G)\).
+
+*** 
+    Babson y Kozlov demostraron (2003): Si
+    \(\mathrm{hom}(C_{2r+1},G)\) es \(k\)-conexo para alguna \(r\),
+    entonces \(\chi(G)\geq k+4\).
+
+** Independencia
+
+*** Complejo de independencia                                  :B_definition:
+    :PROPERTIES:
+    :BEAMER_env: definition
+    :END:
+    Sea \(G\) una gráfica. Se tiene un complejo simplicial \(I(G)\)
+    donde:
+    - el conjunto de vértices es \(V(G)\),
+    - \(\sigma\subseteq V(G)\) es simplejo si no existen adyacencias
+      de \(G\) en el conjunto de vértices \(\sigma\)
+
+***                                                          :B_column:BMCOL:
+    :PROPERTIES:
+    :BEAMER_env: column
+    :BEAMER_col: 0.5
+    :END:
+    #+name: diamante2
+    #+header: :file (by-backend (latex "diamante2.tikz") (beamer "diamante2.tikz") (t "diamante2.png")) :noweb yes
+    #+begin_src latex
+<<diamante>>
+    #+end_src
+    
+    #+attr_html: :width 400 :alt diamante2 :align center
+    #+attr_latex: :float t :width ""
+    #+caption: Gráfica \(G\) label:diamante2
+    #+results: diamante2
+
+***                                                          :B_column:BMCOL:
+    :PROPERTIES:
+    :BEAMER_env: column
+    :BEAMER_col: 0.5
+    :END:
+    #+name: complejo-i
+    #+header: :file (by-backend (latex "complejo-i.tikz") (beamer "complejo-i.tikz") (t "complejo-i.png"))
+    #+begin_src latex
+\begin{tikzpicture}
+  [relleno/.style={fill=blue!20},
+  vertices/.style={fill=magenta},
+  radiovertice/.style={radius=0.5mm}]
+  \pgfmathsetmacro{\unidad}{1.5}
+  \pgfmathsetmacro{\altura}{sqrt(3)*\unidad}
+  \pgfmathsetmacro{\mediaaltura}{0.5*sqrt(3)*\unidad}
+  \draw[vertices] (0, 0) -- (\unidad, 0);
+  \draw[vertices] (-0.5*\altura, 0.5*\unidad) node[above] {$2$} circle[radiovertice];
+  \draw[vertices] (-0.5*\altura, -0.5*\unidad) node[below] {$3$} circle[radiovertice];
+  \draw[vertices] (0, 0) node[below] {\(1\)} circle[radiovertice];
+  \draw[vertices] (\unidad, 0) node[below] {\(4\)} circle[radiovertice];
+\end{tikzpicture}
+    #+end_src
+    
+    #+attr_html: :width 400 :alt complejo-i :align center
+    #+attr_latex: :float t :width ""
+    #+caption: Complejo \(I(G)\) label:complejo-i
+    #+results: complejo-i
+
+
+
+    
+** 
+
+*** Ehrenborg, Hetyei, 2006
+    Si \(G\) es un bosque, entonces \(I(G)\) es homotópico a un punto
+    o a una esfera.
+
+*** Engström, 2008
+    Si \(G\) es una gráfica libre de garras (/claw-free/) con \(n\)
+    vértices y grado máximo \(d\), entonces \(I(G)\) es \(\lfloor
+    (2n-1)/(3d+2)-1\rfloor\)-conexo.
+
+*** Van Tuyl, Villarreal, 2008
+    Si \(G\) es cordal, entonces \(I(G)\) es encapsulable
+    (/shellable/), por lo que \(I(G)\) es homotópico a una cuña de
+    esferas.
+
+** Completas
+
+*** Complejo de completas
+    Sea \(G\) una gráfica. Se tiene un complejo simplicial \(\Delta(G)\)
+    donde:
+    - el conjunto de vértices es \(V(G)\),
+    - \(\sigma\subseteq V(G)\) es simplejo si \(\sigma\) induce una
+      subgráfica completa de \(G\).
+
+***                                                          :B_column:BMCOL:
+    :PROPERTIES:
+    :BEAMER_env: column
+    :BEAMER_col: 0.5
+    :END:
+    #+name: diamante3
+    #+header: :file (by-backend (latex "diamante3.tikz") (beamer "diamante3.tikz") (t "diamante3.png")) :noweb yes
+    #+begin_src latex
+<<diamante>>
+    #+end_src
+    
+    #+attr_html: :width 400 :alt diamante3 :align center
+    #+attr_latex: :float t :width ""
+    #+caption: Gráfica \(G\) label:diamante3
+    #+results: diamante3
+
+***                                                          :B_column:BMCOL:
+    :PROPERTIES:
+    :BEAMER_env: column
+    :BEAMER_col: 0.5
+    :END:
+    #+name: complejo-g
+    #+header: :file (by-backend (latex "complejo-g.tikz") (beamer "complejo-g.tikz") (t "complejo-g.png"))
+    #+begin_src latex
+\begin{tikzpicture}
+  [relleno/.style={fill=blue!20},
+  vertice/.style={fill=magenta},
+  radio/.style={radius=0.5mm}]
+  \pgfmathsetmacro{\unidad}{1}
+  \draw[relleno]  (0, \unidad) -- ({sqrt(3)*\unidad}, 0) -- (0, -\unidad) -- cycle;
+  \draw[relleno]  (0, \unidad) -- ({-sqrt(3)*\unidad}, 0) -- (0,
+  -\unidad) -- cycle;
+  \draw[vertice] (0, \unidad) node[above] {\(2\)} circle[radio];
+  \draw[vertice] (0, -\unidad) node[below] {\(3\)} circle[radio];
+  \draw[vertice] ({-sqrt(3)*\unidad}, 0) node[left] {\(1\)} circle[radio];
+  \draw[vertice] ({sqrt(3)*\unidad}, 0) node[right] {\(4\)} circle[radio];
+\end{tikzpicture}
+    #+end_src
+    
+    #+attr_html: :width 400 :alt complejo-g :align center
+    #+attr_latex: :float t :width ""
+    #+caption: Complejo \(\Delta(G)\) label:complejo-g
+    #+results: complejo-g
+
+
+
+
+** 
+
+*** Prisner, 1992
+    Si \(G\) es \(K\)-Helly, entonces \(\Delta(G)\simeq \Delta(K(G))\).
+
+*** Larrión, Pizaña, V., 2013
+    - Si \(S\) es una superficie compacta diferente del disco \(D^{2}\),
+      entonces existe una gráfica \(G\) tal que \(\Delta(G)\cong S\) y
+      \(G\) es \(K\)-divergente.
+    - Si \(S\) es una superficie compacta diferente de la esfera
+      \(S^{2}\), el toro, el plano proyectivo y la botella de Klein,
+      entonces existe una gráfica \(G\) tal que \(\Delta(G)\cong S\) y
+      \(G\) es \(K\)-convergente.
+
+** Grado acotado
+
+*** Complejo de grado acotado
+    Sean \(G\) una gráfica con vértices
+    \(V(G)=(v_{1},v_{2}\ldots,v_{n})\) y
+    \(\lambda=(\lambda_{1},\lambda_{2},\ldots,\lambda_{n})\) una
+    sucesión de enteros no negativos. Se tiene un complejo simplicial
+    \(\mathrm{BD}^{\lambda}(G)\) donde:
+    - el conjunto de vértices es \(E(G)\),
+    - \(H\subseteq E(G)\) es simplejo si el grado de \(v_{i}\) en la
+      gráfica inducida \(G[H]\) es menor o igual a \(\lambda_{i}\).
+
+*** 
+    Si \(\lambda=(k,k,\ldots,k)\), entonces \(\mathrm{BD}^{\lambda}(G)\) se
+    denota \(\mathrm{BD}^{k}(G)\). Si \(k=1\), \(\mathrm{BD}^{k}(G)\)
+    se llama el *complejo de emparejamientos* (/matching complex/) de
+    \(G\).
+
+
+** Ejemplo
+
+   Sea \(\lambda=(1,2,2,1)\)
+
+***                                                          :B_column:BMCOL:
+    :PROPERTIES:
+    :BEAMER_env: column
+    :BEAMER_col: 0.5
+    :END:
+    #+name: diamante4
+    #+header: :file (by-backend (latex "diamante4.tikz") (beamer "diamante4.tikz") (t "diamante4.png")) :noweb yes
+    #+begin_src latex
+<<diamante>>
+    #+end_src
+    
+    #+attr_html: :width 400 :alt diamante4 :align center
+    #+attr_latex: :float t :width ""
+    #+caption: Gráfica \(G\) label:diamante4
+    #+results: diamante4
+
+***                                                          :B_column:BMCOL:
+    :PROPERTIES:
+    :BEAMER_env: column
+    :BEAMER_col: 0.5
+    :END:
+    #+name: complejo-bg
+    #+header: :file (by-backend (latex "complejo-bg.tikz") (beamer "complejo-bg.tikz") (t "complejo-bg.png"))
+    #+begin_src latex
+\begin{tikzpicture}
+  [relleno/.style={fill=blue!20},
+  vertice/.style={fill=magenta},
+  radio/.style={radius=0.5mm}]
+  \pgfmathsetmacro{\unidad}{1.3}
+  \draw[relleno] (0, 0) -- (\unidad, \unidad) -- (-\unidad, \unidad) -- cycle;
+  \draw[relleno] (0, 0) -- (\unidad, -\unidad) -- (-\unidad, -\unidad) -- cycle;
+  \draw (\unidad, -\unidad) -- (\unidad, \unidad);
+  \draw (-\unidad, -\unidad) -- (-\unidad, \unidad);
+  \draw[vertice] (0, 0) node[right] {\(23\)} circle[radio];
+  \draw[vertice] (\unidad, \unidad) node[above right] {\(13\)} circle[radio];
+  \draw[vertice] (\unidad, -\unidad) node[below right] {\(34\)} circle[radio];
+  \draw[vertice] (-\unidad, -\unidad) node[below left] {\(12\)} circle[radio];
+  \draw[vertice] (-\unidad, \unidad) node[above left] {\(24\)} circle[radio];
+\end{tikzpicture}
+    #+end_src
+    
+    #+attr_html: :width 400 :alt complejo-bg :align center
+    #+attr_latex: :float t :width ""
+    #+caption: Complejo \(\mathrm{BD}^{\lambda}(G)\) label:complejo-bg
+    #+results: complejo-bg
+
+
+
+** 
+
+*** Marietti, Testa, 2008
+    Si \(G\) es un bosque, entonces \(\mathrm{BD}^{1}(G)\) es
+    contraíble, u homotópico a una cuña de esferas.
+
+*** Singh, 2020
+    Si \(G\) es un bosque, entonces \(\mathrm{BD}^{\lambda}(G)\) es
+    contraíble, u homotópico a una cuña de esferas para todo
+    \(\lambda\).
+
+* Herramientas para el cálculo
+
+** Contraer un subespacio
+
+*** Teorema                                                       :B_theorem:
+    :PROPERTIES:
+    :BEAMER_env: theorem
+    :END:
+    Sea $X$ un espacio y $Y$ un subespacio contraíble tal que
+    la inclusión $Y\hookrightarrow X$ es una cofibración. Entonces
+    $X\simeq X/Y$.
+
+*** 
+    En nuestro caso, podemos usar siempre este teorema, ya que si
+    \(\Delta\) es un complejo simplicial con subcomplejo \(\Delta'\),
+    la inclusión \(\Delta'\hookrightarrow \Delta\) siempre es una
+    cofibración. 
+
+** Eliminar vértices dominados
+   Para complejos de la forma \(\Delta(G)\).
+
+** Teoría discreta de Morse
+
+* COMMENT Local Variables
+
+# Local Variables:
+# org-confirm-babel-evaluate: nil
+# org-beamer-outline-frame-title: "Esbozo"
+# org-latex-compiler: "lualatex"
+# eval: (org-babel-lob-ingest "./options.org")
+# eval: (org-sbe maketitle-filter)
+# ispell-local-dictionary: "castellano"
+# End:
