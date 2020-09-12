@@ -89,8 +89,8 @@
     #+name: complejo-ng
     #+header: :file (by-backend (latex "complejo-ng.tikz") (beamer "complejo-ng.tikz") (t "complejo-ng.png"))
     #+begin_src latex
-\begin{tikzpicture}
-  [relleno/.style={fill=blue!20},
+\begin{tikzpicture}[baseline=(current bounding box.center),
+  relleno/.style={fill=blue!20},
   vertices/.style={fill=magenta},
   radiovertice/.style={radius=0.5mm}]
   \pgfmathsetmacro{\unidad}{1.3}
@@ -276,9 +276,6 @@
     #+caption: Complejo \(\Delta(G)\) label:complejo-g
     #+results: complejo-g
 
-
-
-
 ** 
 
 *** Prisner, 1992
@@ -340,8 +337,8 @@
     #+name: complejo-bg
     #+header: :file (by-backend (latex "complejo-bg.tikz") (beamer "complejo-bg.tikz") (t "complejo-bg.png"))
     #+begin_src latex
-\begin{tikzpicture}
-  [relleno/.style={fill=blue!20},
+\begin{tikzpicture}[baseline=(current bounding box.center),
+  relleno/.style={fill=blue!20},
   vertice/.style={fill=magenta},
   radio/.style={radius=0.5mm}]
   \pgfmathsetmacro{\unidad}{1.3}
@@ -375,7 +372,12 @@
     contraíble, u homotópico a una cuña de esferas para todo
     \(\lambda\).
 
+
 * Herramientas para el cálculo
+  :LOGBOOK:
+  CLOCK: [2020-09-12 Sat 14:38]
+  CLOCK: [2020-09-12 Sat 14:00]--[2020-09-12 Sat 14:25] =>  0:25
+  :END:
 
 ** Contraer un subespacio
 
@@ -393,10 +395,187 @@
     la inclusión \(\Delta'\hookrightarrow \Delta\) siempre es una
     cofibración. 
 
-** Eliminar vértices dominados
-   Para complejos de la forma \(\Delta(G)\).
+** Ejemplos
+
+   #+name: homotopía
+   #+header: :file (by-backend (latex "homotopía.tikz") (beamer "homotopía.tikz") (t "homotopía.png")) :noweb yes
+   #+begin_src latex
+<<complejo-ng>>
+\begin{tikzpicture}[baseline=(current bounding box.center)]
+  \draw[thick, ->] (-2,0)  -- (2,0);
+  \draw (0,0) node[above] {homotópico a};
+  \draw (4,0) circle[radius=1.2cm, thick];
+\end{tikzpicture}
+   #+end_src
+   
+   #+attr_html: :width 400 :alt homotopía :align center
+   #+attr_latex: :float t :width ""
+   #+results: homotopía
+
+   #+beamer: \pause
+
+   #+name: homotopía2
+   #+header: :file (by-backend (latex "homotopía2.tikz") (beamer "homotopía2.tikz") (t "homotopía2.png")) :noweb yes
+   #+begin_src latex
+<<complejo-bg>>
+\begin{tikzpicture}[baseline=(current bounding box.center), scale=0.8]
+  \draw[thick, ->] (-2,0)  -- (2,0);
+  \draw (0,0) node[above] {homotópico a};
+  \draw (4,0) circle[radius=1.2cm, thick];
+  \draw (6.4,0) circle[radius=1.2cm, thick];
+\end{tikzpicture}
+   #+end_src
+   
+   #+attr_html: :width 400 :alt homotopía2 :align center
+   #+attr_latex: :float t :width ""
+   #+results: homotopía2
+
+** Vértices dominados
+   
+   Para todo complejo simplicial \(\Delta\) existe una gráfica \(G\)
+   tal que de la forma \(\Delta\cong\Delta(G)\).
+
+*** Vértice dominado                                           :B_definition:
+    :PROPERTIES:
+    :BEAMER_env: definition
+    :END:
+    Un vértice \(u\) en la gráfica \(G\) es *dominado* por otro
+    vértice \(v\) si \(u\sim v\) y \(u\sim z\) implica \(v\sim z\).
+
+***                                                               :B_theorem:
+    :PROPERTIES:
+    :BEAMER_env: theorem
+    :END:
+    Si \(v\) es dominado, entonces \(G\simeq G-v\).
+
+** 
+   #+name: desmantelable
+   #+header: :file (by-backend (latex "desmantelable.tikz") (beamer "desmantelable.tikz") (t "desmantelable.png"))
+   #+begin_src latex
+      \only<1>{%
+        \begin{tikzpicture}
+          \useasboundingbox (-3,-1) rectangle (3,5);
+          \SetVertexNormal
+          \SetVertexNoLabel
+          \SetVertexLabelOut
+          \grPath[form=2,prefix=a,RA=2]{3}
+          \grPath[form=2,prefix=b,RA=2,y=2]{2}
+          \grPath[form=2,prefix=c,RA=2,y=4]{1}
+          \EdgeIdentity{a}{b}{2}
+          \Edge(a1)(b0)
+          \Edge(a2)(b1)
+          \EdgeFromOneToAll{c}{b}{0}{2}
+          \AddVertexColor{red}{a0}
+          \AddVertexColor{blue}{a1}
+          \AssignVertexLabel{a}{u,v}
+        \end{tikzpicture}}
+      \only<2>{%
+        \begin{tikzpicture}
+          \useasboundingbox (-3,-1) rectangle (3,5);
+          \SetVertexNormal
+          \SetVertexNoLabel
+          \SetVertexLabelOut
+          \grPath[form=1,prefix=a,RA=2]{2}
+          \grPath[form=2,prefix=b,RA=2,y=2]{2}
+          \grPath[form=2,prefix=c,RA=2,y=4]{1}
+          \EdgeIdentity{a}{b}{2}
+          \Edge(a0)(b1)
+          \EdgeFromOneToAll{c}{b}{0}{2}
+          \AddVertexColor{red}{a1}
+          \AddVertexColor{blue}{a0}
+          \AssignVertexLabel{a}{v,u}
+        \end{tikzpicture}
+      }
+      \only<3>{%
+        \begin{tikzpicture}
+          \useasboundingbox (-3,-1) rectangle (3,5);
+          \SetVertexNormal
+          \SetVertexNoLabel
+          \SetVertexLabelOut
+          \grPath[form=1,prefix=a,RA=2]{1}
+          \grPath[form=2,prefix=b,RA=2,y=2]{2}
+          \grPath[form=2,prefix=c,RA=2,y=4]{1}
+          \EdgeIdentity{a}{b}{1}
+          \Edge(a0)(b1)
+          \EdgeFromOneToAll{c}{b}{0}{2}
+          \AddVertexColor{red}{c0}
+          \AddVertexColor{blue}{b0}
+          \AssignVertexLabel{c}{u}
+          \AssignVertexLabel{b}{v}
+        \end{tikzpicture}
+      }
+      \only<4>{%
+        \begin{tikzpicture}
+          \useasboundingbox (-3,-1) rectangle (3,5);
+          \SetVertexNormal
+          \SetVertexNoLabel
+          \SetVertexLabelOut
+          \grPath[form=1,prefix=a,RA=2]{1}
+          \grPath[form=2,prefix=b,RA=2,y=2]{2}
+          \EdgeIdentity{a}{b}{1}
+          \Edge(a0)(b1)
+          \AddVertexColor{red}{a0}
+          \AddVertexColor{blue}{b0}
+          \AssignVertexLabel{a}{u}
+          \AssignVertexLabel{b}{v}
+        \end{tikzpicture}
+      }
+      \only<5>{%
+        \begin{tikzpicture}
+          \useasboundingbox (-3,-1) rectangle (3,5);
+          \SetVertexNormal
+          \SetVertexNoLabel
+          \SetVertexLabelOut
+          \grPath[form=2,prefix=b,RA=2,y=2]{2}
+          \AddVertexColor{red}{b1}
+          \AddVertexColor{blue}{b0}
+          \AssignVertexLabel{b}{v,u}
+        \end{tikzpicture}
+      }
+      \only<6>{%
+        \begin{tikzpicture}
+          \useasboundingbox (-3,-1) rectangle (3,5);
+          \SetVertexNormal
+          \SetVertexNoLabel
+          \SetVertexLabelOut
+          \Vertex[x=-1,y=2,L=v]{v}
+          \AddVertexColor{blue}{v}
+        \end{tikzpicture}
+      }
+      \only<7>{%
+        \begin{tikzpicture}
+          \useasboundingbox (-3,-2) rectangle (3,5);
+          \SetVertexNormal
+          \SetVertexNoLabel
+          \grPath[form=2,prefix=a,RA=2]{3}
+          \grPath[form=2,prefix=b,RA=2,y=2]{2}
+          \grPath[form=2,prefix=c,RA=2,y=4]{1}
+          \EdgeIdentity{a}{b}{2}
+          \Edge(a1)(b0)
+          \Edge(a2)(b1)
+          \EdgeFromOneToAll{c}{b}{0}{2}
+          \draw (0,-0.5) node [fill=orange!60!white,below]%
+          {Gráfica desmantelable};
+        \end{tikzpicture}}
+   #+end_src
+   
+   #+attr_html: :width 400 :alt desmantelable :align center
+   #+attr_latex: :float t :width ""
+   #+caption: Desmantelamiento label:desmantelable
+   #+results: desmantelable
+
+** 
+
+*** Boulet, Fieux, Jouve, 2010                                    :B_theorem:
+    :PROPERTIES:
+    :BEAMER_env: theorem
+    :END:
+    - Si la vecindad de \(v\) es desmantelable, entonces \(G\simeq G-v\).
+    - Si \(e=\{u,v\}\) es una arista y la vecindad común de \(u,v\) es
+      desmantelable, entonces \(G\simeq G-e\).
 
 ** Teoría discreta de Morse
+
 
 * COMMENT Local Variables
 
