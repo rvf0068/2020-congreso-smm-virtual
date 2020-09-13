@@ -31,6 +31,33 @@
 #+latex_header: \usepackage{graphiso}
 #+latex_header: \usepackage[spanish, mexico, es-noshorthands]{babel}
 
+#+latex_header: \usetikzlibrary{3d}
+#+latex_header: \tikzset{xzplane/.style={canvas is xz plane at y=#1}}
+#+latex_header: \tikzset{xyplane/.style={canvas is xy plane at z=#1}}
+#+latex_header: \tikzset{yzplane/.style={canvas is yz plane at x=#1}}
+
+#+latex_header: \newcommand{\suspension}[5]{%
+#+latex_header:   \setxyzvec[#3]
+#+latex_header:   \begin{center}%
+#+latex_header:     \begin{tikzpicture}%
+#+latex_header:       [scale=#2]
+#+latex_header:       \begin{scope}[xyplane=-2.5]
+#+latex_header:         \Vertex{x}
+#+latex_header:       \end{scope}
+#+latex_header:       \begin{scope}[xyplane=0]
+#+latex_header:         \grEmptyCycle[RA=#4,prefix=a,rotation=#5]{#1}
+#+latex_header:       \end{scope}
+#+latex_header:       \EdgeFromOneToAll{x}{a}{}{#1}
+#+latex_header:       \begin{scope}[xyplane=0]
+#+latex_header:         \grCycle[RA=#4,prefix=a,rotation=#5]{#1}
+#+latex_header:       \end{scope}
+#+latex_header:       \begin{scope}[xyplane=2.5]
+#+latex_header:         \Vertex{y}
+#+latex_header:       \end{scope}
+#+latex_header:       \EdgeFromOneToAll{y}{a}{}{#1}
+#+latex_header:     \end{tikzpicture}
+#+latex_header:   \end{center}}
+
 #+latex_header: % remove space between margin and lists
 #+latex_header: \usepackage{enumitem}
 #+latex_header: \setitemize{label=\usebeamerfont*{itemize item}%
@@ -41,6 +68,9 @@
 #+latex_header:   label=\protect\usebeamerfont{enumerate item}%
 #+latex_header:         \protect\usebeamercolor[fg]{enumerate item}%
 #+latex_header:         \insertenumlabel.}
+
+
+
 
 #+property: header-args:latex :imagemagick t :iminoptions -density 300 -resize 400
 #+property: header-args:latex+ :packages '(("" "tikz") ("" "tkz-berge") ("" "tkz-berge-add")) :border 1pt

@@ -5,6 +5,9 @@
 #+date: Congreso Virtual SMM 2020
 #+setupfile: options.org
 
+#+latex_header: \usepackage{fontawesome}
+#+latex_header: \usepackage{FiraMono}
+
 #+latex: \SetVertexNotLabeledSmall
 #+latex: \tikzstyle{EdgeStyle}=[color=white, line width=0.5pt, double=black, double distance=1pt]
 
@@ -30,7 +33,7 @@
     :PROPERTIES:
     :BEAMER_env: definition
     :END:
-    Un *complejo simplicial* \((\Delta, X)\) consta de un conjunto
+    Un *complejo simplicial* \((X, \Delta)\) consta de un conjunto
     \(X\) de *vértices* y un conjunto de subconjuntos de \(X\)
     (llamados *simplejos*), tal que si \(\sigma\in\Delta\) y
     \(\tau\subseteq\sigma\), entonces \(\tau\in\Delta\).
@@ -39,14 +42,17 @@
     A cada complejo simplicial se le puede asociar un espacio
     topológico \(|\Delta|\).
 
+
+* Construcciones
+
 ** Vecindades
 
 *** Complejo de vecindades                                     :B_definition:
     :PROPERTIES:
     :BEAMER_env: definition
     :END:
-    Sea \(G\) una gráfica. Se tiene un complejo simplicial
-    \(\mathcal{N}(G)\), donde:
+    Sea \(G\) una gráfica sin vértices aislados. Se tiene un complejo
+    simplicial \(\mathcal{N}(G)\), donde:
     - el conjunto de vértices es \(V(G)\),
     - \(\sigma\subseteq V(G)\) es un simplejo si los vértices de
       \(\sigma\) tienen un vecino común.
@@ -127,7 +133,6 @@
     :END:
     - Un espacio \(X\) es \(k\)-conexo si toda función continua
       \(S^{k}\to X\) puede extenderse a la bola cerrada \(D^{k+1}\to X\).
-    - \((-1)\)-conexo es ser no vacío.
     - \(0\)-conexo es ser conexo por trayectorias.
     - \(1\)-conexo es ser simplemente conexo.
 
@@ -139,7 +144,7 @@
 
 *** 
     El complejo de vecindades fue generalizado por Lovász a una
-    construcción \(\mathrm{hom}(G,H)\), definida para cualquier par de
+    construcción \(\mathrm{hom}(H,G)\), definida para cualquier par de
     gráficas \(G,H\). Se tiene que \(\mathrm{hom}(K_{2},G)\simeq
     \mathcal{N}(G)\).
 
@@ -157,8 +162,8 @@
     Sea \(G\) una gráfica. Se tiene un complejo simplicial \(I(G)\)
     donde:
     - el conjunto de vértices es \(V(G)\),
-    - \(\sigma\subseteq V(G)\) es simplejo si no existen adyacencias
-      de \(G\) en el conjunto de vértices \(\sigma\)
+    - \(\sigma\subseteq V(G)\) es simplejo si no existen aristas entre
+      vértices de \(\sigma\).
 
 ***                                                          :B_column:BMCOL:
     :PROPERTIES:
@@ -225,7 +230,10 @@
 
 ** Completas
 
-*** Complejo de completas
+*** Complejo de completas                                      :B_definition:
+    :PROPERTIES:
+    :BEAMER_env: definition
+    :END:
     Sea \(G\) una gráfica. Se tiene un complejo simplicial \(\Delta(G)\)
     donde:
     - el conjunto de vértices es \(V(G)\),
@@ -275,6 +283,15 @@
     #+attr_latex: :float t :width ""
     #+caption: Complejo \(\Delta(G)\) label:complejo-g
     #+results: complejo-g
+
+** 
+
+*** 
+    Si \(G\) es una gráfica, \(K(G)\) es la gráfica de intersección de
+    los clanes de \(G\). \(G\) es \(K\)-Helly si sus clanes tienen la
+    propiedad de Helly. \(G\) es *\(K\)-convergente* si la sucesión de
+    órdenes de las gráficas \(\{K^{n}(G)\}\) es acotada. De lo
+    contrario, decimos que \(G\) es *\(K\)-divergente*.
 
 ** 
 
@@ -372,16 +389,19 @@
     contraíble, u homotópico a una cuña de esferas para todo
     \(\lambda\).
 
+*** Bouc, 1984
+    La homología de \(BD^{1}(K_{7})\) contiene torsión.
 
 * Herramientas para el cálculo
   :LOGBOOK:
-  CLOCK: [2020-09-12 Sat 14:38]
+  CLOCK: [2020-09-13 Sun 12:23]--[2020-09-13 Sun 12:48] =>  0:25
+  CLOCK: [2020-09-12 Sat 14:38]--[2020-09-12 Sat 15:03] =>  0:25
   CLOCK: [2020-09-12 Sat 14:00]--[2020-09-12 Sat 14:25] =>  0:25
   :END:
 
-** Contraer un subespacio
+** Subespacio contraíble
 
-*** Teorema                                                       :B_theorem:
+*** Subespacio contraíble                                         :B_theorem:
     :PROPERTIES:
     :BEAMER_env: theorem
     :END:
@@ -442,7 +462,7 @@
     Un vértice \(u\) en la gráfica \(G\) es *dominado* por otro
     vértice \(v\) si \(u\sim v\) y \(u\sim z\) implica \(v\sim z\).
 
-***                                                               :B_theorem:
+*** Prisner, 1992                                                 :B_theorem:
     :PROPERTIES:
     :BEAMER_env: theorem
     :END:
@@ -575,6 +595,125 @@
       desmantelable, entonces \(G\simeq G-e\).
 
 ** Teoría discreta de Morse
+
+*** Emparejamiento                                             :B_definition:
+    :PROPERTIES:
+    :BEAMER_env: definition
+    :END:
+    Un *emparejamiento* en el complejo simplicial \(\Delta\) es una
+    familia \(\mathcal{M}\) de parejas de simplejos
+    \(\{\tau,\sigma\}\subseteq\Delta\) tal que:
+    - si \(\{\tau,\sigma\}\in \mathcal{M}\), entonces
+      \(\tau\subseteq\sigma\) y \(|\sigma-\tau|=1\),
+    - cada \(\rho\in\Delta\) está en cuando mucho un par de
+      \(\mathcal{M}\).
+
+    #+beamer: \pause
+    
+    Si \(\sigma\in\Delta\) no pertenece a ninguna pareja de
+    \(\mathcal{M}\), diremos que \(\sigma\) es una cara *crítica*.
+
+
+** 
+
+*** Emparejamiento acíclico                                    :B_definition:
+    :PROPERTIES:
+    :BEAMER_env: definition
+    :END:
+    Dado un emparejamiento \(\mathcal{M}\) en el complejo simplicial
+    \(\Delta\), definimos una gráfica dirigida
+    \(D=D(\Delta,\mathcal{M})\) que tiene como conjunto de vértices a
+    \(\Delta\), y donde hay una flecha \(\tau\to\sigma\) si se da uno de:
+    - \(\{\tau,\sigma\}\in \mathcal{M}\),
+    - \(\{\tau,\sigma\}\not\in \mathcal{M}\), \(\sigma\subseteq\tau\) y
+      \(|\tau-\sigma|=1\).
+      
+    #+beamer: \pause
+
+    Decimos que \(\mathcal{M}\) es un *emparejamiento acíclico* si \(D\)
+    es una gráfica acíclica.
+
+** 
+
+*** Forman                                                        :B_theorem:
+    :PROPERTIES:
+    :BEAMER_env: theorem
+    :END:
+    Si existe un emparejamiento acíclico \(\mathcal{M}\) en el
+    complejo simplicial \(\Delta\), entonces existe un espacio \(X\)
+    homotópico a \(\Delta\), tal que \(X\) tiene estructura de
+    complejo CW con una celda de dimensión \(d\) por cada cara crítica
+    de dimensión \(d\).
+
+*** Corolario
+    Si existe un emparejamiento acíclico en un complejo simplicial
+    \(\Delta\) tal que las únicas caras críticas consisten de un
+    vértice y las restantes son \(n\) caras de dimensión \(d\),
+    entonces \(\Delta\) es homotópico a \(\vee_{n}S^{d}\).
+
+* Una aplicación
+
+** Suspensiones de ciclos
+
+  \begin{columns}
+    \begin{column}{0.3\textwidth}
+    \only<3>{\suspension{5}{0.7}{17}{1.8}{0}}
+    \only<4>{\suspension{6}{0.7}{17}{1.8}{10}}
+    \only<5>{\suspension{7}{0.7}{17}{1.7}{5}}
+    \only<6>{\suspension{8}{0.7}{17}{1.6}{-3}}
+    \only<7>{\suspension{9}{0.7}{17}{1.5}{-5}}
+    \end{column}
+    \begin{column}{0.7\textwidth}
+      \begin{center}
+        Tipo de homotopía
+        \bigskip 
+        
+        \begin{tabular}{c|c|c|c|c|c}
+          \hline
+          $n$ & $G$ & $K(G)$ & $K^{2}(G)$ & $K^{3}(G)$ &  $K^{4}(G)$\\
+          \hline
+          \uncover<3->{5& $S^{2}$ & $S^{2}$ & $S^{3}$ & ? & ?\\}
+          \uncover<4->{6& $S^{2}$ & $S^{2}$ & $\vee_{3}S^{3}$ & ? & ?\\}
+          \uncover<5->{7& $S^{2}$ & $S^{2}$ & $S^{2}$ & [1] & ?\\}
+          \uncover<6->{8& $S^{2}$ & $S^{2}$ & $S^{2}$ &
+            $\vee_{7}S^{3}$ & ?\\}
+          \uncover<7->{9& $S^{2}$ & $S^{2}$ & $S^{2}$ & $S^{2}$ & [2]}
+        \end{tabular}
+      \end{center}
+      \uncover<5->{\footnotesize{[1] probablemente $S^{3}\vee\vee_{2}S^{4}$}\\}
+      \uncover<7->{\footnotesize{[2] probablemente $S^{3}\vee\vee_{2}S^{7}$}}
+    \end{column}
+  \end{columns}
+
+* Gracias                                                   :B_ignoreheading:
+   :PROPERTIES:
+   :BEAMER_env: ignoreheading
+   :END:
+\begin{frame}
+   \begin{center}
+   \begin{huge}
+   Gracias
+   \end{huge}
+
+  \bigskip
+  \bigskip
+
+  \begin{large}
+  \faGithub{} \texttt{github.com/rvf0068/2020-congreso-smm-virtual}
+
+   \bigskip
+
+  \faTwitter{} \texttt{@rvf0068}
+
+   \bigskip
+
+   \faEnvelope{} \texttt{rafaelv@uaeh.edu.mx}
+
+  \end{large}
+  \end{center}
+\end{frame}
+
+
 
 
 * COMMENT Local Variables
