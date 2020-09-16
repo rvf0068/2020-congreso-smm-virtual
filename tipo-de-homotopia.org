@@ -117,7 +117,6 @@
     #+caption: Complejo \(\mathcal{N}(G)\) label:complejo-ng
     #+results: complejo-ng
 
-    
 ** 
 
 *** Lovász, 1978                                                  :B_theorem:
@@ -132,9 +131,11 @@
     :BEAMER_env: ignoreheading
     :END:
     - Un espacio \(X\) es \(k\)-conexo si toda función continua
-      \(S^{k}\to X\) puede extenderse a la bola cerrada \(D^{k+1}\to X\).
+      \(S^{r}\to X\) puede extenderse a la bola cerrada \(D^{r+1}\to
+      X\) para \(r=0,1,\ldots,k\)
     - \(0\)-conexo es ser conexo por trayectorias.
-    - \(1\)-conexo es ser simplemente conexo.
+    - \(1\)-conexo es ser simplemente conexo (y conexo por
+      trayectorias).
 
 ** 
    #+attr_latex: :height 8cm
@@ -209,9 +210,6 @@
     #+caption: Complejo \(I(G)\) label:complejo-i
     #+results: complejo-i
 
-
-
-    
 ** 
 
 *** Ehrenborg, Hetyei, 2006
@@ -325,7 +323,6 @@
     se llama el *complejo de emparejamientos* (/matching complex/) de
     \(G\).
 
-
 ** Ejemplo
 
    Sea \(\lambda=(1,2,2,1)\)
@@ -376,8 +373,6 @@
     #+caption: Complejo \(\mathrm{BD}^{\lambda}(G)\) label:complejo-bg
     #+results: complejo-bg
 
-
-
 ** 
 
 *** Marietti, Testa, 2008
@@ -391,6 +386,7 @@
 
 *** Bouc, 1984
     La homología de \(BD^{1}(K_{7})\) contiene torsión.
+
 
 * Herramientas para el cálculo
   :LOGBOOK:
@@ -613,7 +609,6 @@
     Si \(\sigma\in\Delta\) no pertenece a ninguna pareja de
     \(\mathcal{M}\), diremos que \(\sigma\) es una cara *crítica*.
 
-
 ** 
 
 *** Emparejamiento acíclico                                    :B_definition:
@@ -651,6 +646,7 @@
     vértice y las restantes son \(n\) caras de dimensión \(d\),
     entonces \(\Delta\) es homotópico a \(\vee_{n}S^{d}\).
 
+
 * Una aplicación
 
 ** Suspensiones de ciclos
@@ -685,6 +681,7 @@
     \end{column}
   \end{columns}
 
+
 * Gracias                                                   :B_ignoreheading:
    :PROPERTIES:
    :BEAMER_env: ignoreheading
@@ -712,8 +709,6 @@
   \end{large}
   \end{center}
 \end{frame}
-
-
 
 
 * COMMENT Local Variables
