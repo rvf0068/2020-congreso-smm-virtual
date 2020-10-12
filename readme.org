@@ -1,6 +1,6 @@
 * Referencias
 
-- Lovász, 1978: [[http://dx.doi.org/10.1016/0097-3165(78)90022-5][Kneser's conjecture, cromatic number and homotopy]]
+- Lovász, 1978: [[http://dx.doi.org/10.1016/0097-3165(78)90022-5][Kneser's conjecture, chromatic number and homotopy]]
 
 - Babson, Kozlov, 2003: [[https://www.ams.org/journals/era/2003-09-08/S1079-6762-03-00112-4/][Topological obstructions to graph colorings]]
 
