@@ -6,7 +6,7 @@
 
 - Ehrenborg, Hetyei, 2006: [[https://www.sciencedirect.com/science/article/pii/S0195669805000764][The topology of the independence complex]]
 
-- Engsröm, 2008: [[https://www.sciencedirect.com/science/article/pii/S0195669806002204][Independence complexes of claw-free graphs]]
+- Engström, 2008: [[https://www.sciencedirect.com/science/article/pii/S0195669806002204][Independence complexes of claw-free graphs]]
 
 - Van Tuyl, Villarreal, 2008: [[https://www.sciencedirect.com/science/article/pii/S0097316507001367][Shellable graphs and sequentially Cohen–Macaulay bipartite graphs]]
 
