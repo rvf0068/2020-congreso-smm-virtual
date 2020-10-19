@@ -1,0 +1,234 @@
+\documentclass[final]{beamer}
+\usepackage[orientation=landscape,size=a0, scale=1.5]{beamerposter}
+\usepackage[spanish, mexico]{babel}
+\usepackage{tkz-berge}
+
+\geometry{hmargin=2.5cm}
+
+\usepackage[utf8]{inputenc}
+
+\linespread{1.15}
+\usetheme{sharelatex}
+
+\setbeamercolor{alerted text}{fg=color1}
+
+\title[Congreso Virtual de la Sociedad Matemática Mexicana
+19 al 23 de octubre de 2020] 
+{%
+Cálculo del tipo de homotopía de complejos simpliciales
+}
+
+\author{Rafael Villarroel Flores}
+\institute{Universidad Autónoma del Estado de Hidalgo}
+\date{\today}
+
+\begin{document}
+\begin{frame}[t]
+%==============================================================================
+\begin{multicols}{3}
+
+\section{Introducción}
+
+\subsection{Complejos simpliciales}
+
+Los complejos simpliciales proporcionan una manera sencilla de
+involucrar la topología en diversas construcciones combinatorias.
+Sea $G$ la gráfica diamante:
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}[scale=3]
+  \SetVertexNoLabel
+  \GraphInit[vstyle=Normal]
+  \pgfmathsetmacro{\unidad}{2}
+  \pgfmathsetmacro{\eje}{0.5*sqrt(3)*\unidad}
+  \Vertex[x=-\eje,y=0]{a0}
+  \Vertex[x=\eje,y=0]{b0}
+  \grPath[form=2,rotation=90,prefix=x,RA=\unidad]{2}
+  \EdgeFromOneToAll{a}{x}{0}{2}
+  \EdgeFromOneToAll{b}{x}{0}{2}
+  \AssignVertexLabel[Math]{x}{2,3}
+  \AssignVertexLabel[Math]{a}{1}
+  \AssignVertexLabel[Math]{b}{4}
+\end{tikzpicture}
+\caption{Gráfica \(G\) \label{diamante}}
+\end{figure}
+
+Un \alert{complejo simplicial} \((X, \Delta)\) consta de un conjunto
+\(X\) de \alert{vértices} y un conjunto de subconjuntos de \(X\)
+(llamados \alert{simplejos}), tal que si \(\sigma\in\Delta\) y
+\(\tau\subseteq\sigma\), entonces \(\tau\in\Delta\).
+
+\section{Construcciones}
+
+\subsection{El complejo de vecindades}
+
+Se tiene un complejo simplicial \(\mathcal{N}(G)\) (ver \cite{ref1}),
+donde:
+\begin{itemize}
+\item el conjunto de vértices es \(V(G)\),
+\item \(\sigma\subseteq V(G)\) es un simplejo si los vértices de
+\(\sigma\) tienen un vecino común.
+\end{itemize}
+
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}[scale=3,baseline=(current bounding box.center),
+  relleno/.style={fill=blue!20},
+  vertices/.style={fill=magenta},
+  radiovertice/.style={radius=0.5mm}]
+  \pgfmathsetmacro{\unidad}{1.3}
+  \pgfmathsetmacro{\altura}{sqrt(3)*\unidad}
+  \pgfmathsetmacro{\mediaaltura}{0.5*sqrt(3)*\unidad}
+  \draw  (-\unidad, 0) -- (\unidad, 0) -- (0, -\altura) -- cycle;
+  \draw[relleno]  (-\unidad, 0) -- (0,-\mediaaltura) -- (0, -\altura) -- cycle;
+  \draw[relleno]  (\unidad, 0) -- (0,-\mediaaltura) -- (0, -\altura) -- cycle;
+  \draw[vertices] (0, -\mediaaltura) node[above] {\(1\)} circle[radiovertice];
+  \draw[vertices] (0, -\altura) node[below] {\(4\)} circle[radiovertice];
+  \draw[vertices] (-\unidad, 0) node[left] {\(3\)} circle[radiovertice];
+  \draw[vertices] (\unidad, 0) node[right] {\(2\)} circle[radiovertice];
+\end{tikzpicture}
+\caption{Complejo \(\mathcal{N}(G)\) \label{complejo-ng}}
+\end{figure}
+
+\subsection{El complejo de independencia}
+
+Se tiene un complejo simplicial \(I(G)\)
+donde:
+\begin{itemize}
+\item el conjunto de vértices es \(V(G)\),
+\item \(\sigma\subseteq V(G)\) es simplejo si no existen aristas entre
+vértices de \(\sigma\).
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+  [scale=3,relleno/.style={fill=blue!20},
+  vertices/.style={fill=magenta},
+  radiovertice/.style={radius=0.5mm}]
+  \pgfmathsetmacro{\unidad}{1.5}
+  \pgfmathsetmacro{\altura}{sqrt(3)*\unidad}
+  \pgfmathsetmacro{\mediaaltura}{0.5*sqrt(3)*\unidad}
+  \draw[vertices] (0, 0) -- (\unidad, 0);
+  \draw[vertices] (-0.5*\altura, 0.5*\unidad) node[above] {$2$} circle[radiovertice];
+  \draw[vertices] (-0.5*\altura, -0.5*\unidad) node[below] {$3$} circle[radiovertice];
+  \draw[vertices] (0, 0) node[below] {\(1\)} circle[radiovertice];
+  \draw[vertices] (\unidad, 0) node[below] {\(4\)} circle[radiovertice];
+\end{tikzpicture}
+\caption{Complejo \(I(G)\) \label{complejo-i}}
+\end{figure}
+
+
+\subsection{El complejo de completas}
+
+Se tiene un complejo simplicial \(\Delta(G)\) donde:
+\begin{itemize}
+\item el conjunto de vértices es \(V(G)\),
+\item \(\sigma\subseteq V(G)\) es simplejo si \(\sigma\) induce una
+subgráfica completa de \(G\).
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+  [scale=3,relleno/.style={fill=blue!20},
+  vertice/.style={fill=magenta},
+  radio/.style={radius=0.5mm}]
+  \pgfmathsetmacro{\unidad}{1}
+  \draw[relleno]  (0, \unidad) -- ({sqrt(3)*\unidad}, 0) -- (0, -\unidad) -- cycle;
+  \draw[relleno]  (0, \unidad) -- ({-sqrt(3)*\unidad}, 0) -- (0,
+  -\unidad) -- cycle;
+  \draw[vertice] (0, \unidad) node[above] {\(2\)} circle[radio];
+  \draw[vertice] (0, -\unidad) node[below] {\(3\)} circle[radio];
+  \draw[vertice] ({-sqrt(3)*\unidad}, 0) node[left] {\(1\)} circle[radio];
+  \draw[vertice] ({sqrt(3)*\unidad}, 0) node[right] {\(4\)} circle[radio];
+\end{tikzpicture}
+\caption{Complejo \(\Delta(G)\) \label{complejo-g}}
+\end{figure}
+
+\subsection{El complejo de grado acotado}
+
+Sean \(G\) una gráfica con vértices
+\(V(G)=(v_{1},v_{2}\ldots,v_{n})\) y
+\(\lambda=(\lambda_{1},\lambda_{2},\ldots,\lambda_{n})\) una
+sucesión de enteros no negativos. Se tiene un complejo simplicial
+\(\mathrm{BD}^{\lambda}(G)\) donde:
+\begin{itemize}
+\item el conjunto de vértices es \(E(G)\),
+\item \(H\subseteq E(G)\) es simplejo si el grado de \(v_{i}\) en la
+gráfica inducida \(G[H]\) es menor o igual a \(\lambda_{i}\).
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[scale=3,baseline=(current bounding box.center),
+  relleno/.style={fill=blue!20},
+  vertice/.style={fill=magenta},
+  radio/.style={radius=0.5mm}]
+  \pgfmathsetmacro{\unidad}{1.3}
+  \draw[relleno] (0, 0) -- (\unidad, \unidad) -- (-\unidad, \unidad) -- cycle;
+  \draw[relleno] (0, 0) -- (\unidad, -\unidad) -- (-\unidad, -\unidad) -- cycle;
+  \draw (\unidad, -\unidad) -- (\unidad, \unidad);
+  \draw (-\unidad, -\unidad) -- (-\unidad, \unidad);
+  \draw[vertice] (0, 0) node[right] {\(23\)} circle[radio];
+  \draw[vertice] (\unidad, \unidad) node[above right] {\(13\)} circle[radio];
+  \draw[vertice] (\unidad, -\unidad) node[below right] {\(34\)} circle[radio];
+  \draw[vertice] (-\unidad, -\unidad) node[below left] {\(12\)} circle[radio];
+  \draw[vertice] (-\unidad, \unidad) node[above left] {\(24\)} circle[radio];
+\end{tikzpicture}
+\caption{Complejo \(\mathrm{BD}^{\lambda}(G)\), con $\lambda=(1,2,2,1)$ \label{complejo-bg}}
+\end{figure}
+
+\section{Herramientas para el cálculo}
+
+\subsection{Subespacio contraíble}
+
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}[scale=2,baseline=(current bounding box.center),
+  relleno/.style={fill=blue!20},
+  vertice/.style={fill=magenta},
+  radio/.style={radius=0.5mm}]
+  \pgfmathsetmacro{\unidad}{1.3}
+  \draw[relleno] (0, 0) -- (\unidad, \unidad) -- (-\unidad, \unidad) -- cycle;
+  \draw[relleno] (0, 0) -- (\unidad, -\unidad) -- (-\unidad, -\unidad) -- cycle;
+  \draw (\unidad, -\unidad) -- (\unidad, \unidad);
+  \draw (-\unidad, -\unidad) -- (-\unidad, \unidad);
+  \draw[vertice] (0, 0) node[right] {\(23\)} circle[radio];
+  \draw[vertice] (\unidad, \unidad) node[above right] {\(13\)} circle[radio];
+  \draw[vertice] (\unidad, -\unidad) node[below right] {\(34\)} circle[radio];
+  \draw[vertice] (-\unidad, -\unidad) node[below left] {\(12\)} circle[radio];
+  \draw[vertice] (-\unidad, \unidad) node[above left] {\(24\)} circle[radio];
+\end{tikzpicture}
+\begin{tikzpicture}[scale=2,baseline=(current bounding box.center)]
+  \draw[thick, ->] (-2,0)  -- (2,0);
+  \draw (0,0) node[above] {homotópico a};
+  \draw (4,0) circle[radius=1.2cm, thick];
+  \draw (6.4,0) circle[radius=1.2cm, thick];
+\end{tikzpicture}
+\end{figure}
+
+\subsection{Vértices dominados (ver \cite{prisner})}
+
+\subsection{Teoría discreta de Morse (ver \cite{ref3})}
+
+\section{Bibliografía}
+
+\begin{thebibliography}{99}
+
+\bibitem{ref1} Lovsáz (1978):  Kneser's conjecture, chromatic number and homotopy.
+
+\bibitem{prisner} Prisner (1992): Convergence of iterated clique graphs.
+
+\bibitem{ref3} Forman (1998): Morse theory for cell complexes.
+  
+\bibitem{ref2} Larrión, Pizaña, V., (2013): Iterated clique graphs and bordered compact surfaces.
+
+
+
+\end{thebibliography}
+
+\end{multicols}
+
+\end{frame}
+\end{document}
